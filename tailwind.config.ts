@@ -78,8 +78,29 @@ export default {
 					to: { height: '0' }
 				},
 				'orbit': {
-					'0%': { transform: 'rotate(0deg)' },
-					'100%': { transform: 'rotate(360deg)' }
+					'0%': { 
+						transform: 'translate(-50%, -50%) rotate(0deg) translateX(var(--radius, 60px))' 
+					},
+					'100%': { 
+						transform: 'translate(-50%, -50%) rotate(360deg) translateX(var(--radius, 60px))' 
+					}
+				},
+				'orbit-smooth': {
+					'0%': { 
+						transform: 'translate(-50%, -50%) rotate(0deg) translateX(var(--radius, 60px))' 
+					},
+					'25%': { 
+						transform: 'translate(-50%, -50%) rotate(90deg) translateX(var(--radius, 60px))' 
+					},
+					'50%': { 
+						transform: 'translate(-50%, -50%) rotate(180deg) translateX(var(--radius, 60px))' 
+					},
+					'75%': { 
+						transform: 'translate(-50%, -50%) rotate(270deg) translateX(var(--radius, 60px))' 
+					},
+					'100%': { 
+						transform: 'translate(-50%, -50%) rotate(360deg) translateX(var(--radius, 60px))' 
+					}
 				},
 				'pulse-glow': {
 					'0%, 100%': { boxShadow: '0 0 20px hsl(var(--primary) / 0.4)' },
@@ -92,6 +113,28 @@ export default {
 				'fade-in': {
 					'0%': { opacity: '0', transform: 'translateY(20px)' },
 					'100%': { opacity: '1', transform: 'translateY(0)' }
+				},
+				'electron-glow': {
+					'0%, 100%': { 
+						boxShadow: '0 0 10px hsl(180 100% 50%), 0 0 20px hsl(180 100% 50%)' 
+					},
+					'50%': { 
+						boxShadow: '0 0 20px hsl(180 100% 50%), 0 0 40px hsl(180 100% 50%)' 
+					}
+				},
+				'shell-rotate': {
+					'0%': { transform: 'translate(-50%, -50%) rotate(0deg)' },
+					'100%': { transform: 'translate(-50%, -50%) rotate(360deg)' }
+				},
+				'arrow-pulse': {
+					'0%, 100%': { 
+						transform: 'scale(1)',
+						opacity: '1'
+					},
+					'50%': { 
+						transform: 'scale(1.1)',
+						opacity: '0.8'
+					}
 				}
 			},
 			animation: {
@@ -99,9 +142,13 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'orbit': 'orbit 8s linear infinite',
 				'orbit-fast': 'orbit 4s linear infinite',
+				'orbit-smooth': 'orbit-smooth 6s linear infinite',
 				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
 				'float': 'float 3s ease-in-out infinite',
-				'fade-in': 'fade-in 0.6s ease-out'
+				'fade-in': 'fade-in 0.6s ease-out',
+				'electron-glow': 'electron-glow 2s ease-in-out infinite',
+				'shell-rotate': 'shell-rotate 10s linear infinite',
+				'arrow-pulse': 'arrow-pulse 2s ease-in-out infinite'
 			}
 		}
 	},

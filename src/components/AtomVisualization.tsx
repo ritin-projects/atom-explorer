@@ -28,26 +28,26 @@ export const AtomVisualization: React.FC = () => {
     let electronCount = 0;
 
     selectedElement.electrons.forEach((electronsInShell, shellIndex) => {
-      const radius = 60 + shellIndex * 40;
+             const radius = 100 + shellIndex * 60; // Much larger distance to ensure electrons never appear near nucleus
       const electrons: JSX.Element[] = [];
 
       for (let i = 0; i < electronsInShell; i++) {
         const angle = (360 / electronsInShell) * i;
-        electrons.push(
-          <div
-            key={`electron-${shellIndex}-${i}`}
-            className={`absolute w-3 h-3 bg-accent rounded-full glow-effect ${
-              isAnimating ? 'animate-orbit' : ''
-            }`}
-            style={{
-              left: '50%',
-              top: '50%',
-              transform: `translate(-50%, -50%) rotate(${angle}deg) translateX(${radius}px)`,
-              animationDuration: `${4 + shellIndex * 2}s`,
-              animationDelay: `${i * 0.5}s`,
-            }}
-          />
-        );
+                 const animationDuration = 4 + shellIndex * 1.5; // Original speed - smooth orbiting
+        
+                 electrons.push(
+           <div
+             key={`electron-${shellIndex}-${i}`}
+             className={`absolute w-3 h-3 bg-accent rounded-full glow-effect`}
+             style={{
+               left: '50%',
+               top: '50%',
+               transform: `translate(-50%, -50%) rotate(${angle}deg) translateX(${radius}px)`,
+               animation: isAnimating ? `orbit ${animationDuration}s linear infinite` : 'none',
+               animationDelay: isAnimating ? `${i * (animationDuration / electronsInShell)}s` : '0s',
+             }}
+           />
+         );
         electronCount++;
       }
 
@@ -74,6 +74,13 @@ export const AtomVisualization: React.FC = () => {
   return (
     <div className="flex flex-col items-center space-y-8">
       {/* Element Selector */}
+      <div className="text-center mb-4">
+        <h4 className="text-lg font-semibold text-accent mb-2">Select an Element</h4>
+        <p className="text-sm text-muted-foreground mb-4">
+          Click on an element to see its atomic structure
+        </p>
+      </div>
+      
       <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
         {elements.map((element) => (
           <Button
@@ -90,46 +97,115 @@ export const AtomVisualization: React.FC = () => {
         ))}
       </div>
 
-      {/* Atom Visualization */}
-      <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50">
-        <div className="flex flex-col items-center space-y-6">
-          <h3 className="text-2xl font-bold text-gradient">
-            {selectedElement.name} Atom
-          </h3>
-          
-          <div className="relative w-80 h-80">
-            {/* Nucleus */}
-            <div
-              className="absolute w-8 h-8 rounded-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse-glow"
-              style={{ backgroundColor: selectedElement.color }}
-            />
-            
-            {/* Electron Shells */}
-            {renderElectronShells()}
-          </div>
+             {/* Atom Visualization - Dynamic Layout */}
+       <Card className={`p-8 bg-card/50 backdrop-blur-sm border-border/50 transition-all duration-700 w-full max-w-7xl ${
+         isAnimating ? 'shadow-lg shadow-primary/20' : ''
+       }`}>
+         <div className="relative">
+           {/* Atom Model - Dynamic Positioning */}
+           <div className={`flex flex-col items-center space-y-6 transition-all duration-700 ${
+             isAnimating 
+               ? 'w-full justify-center' 
+               : 'w-1/2 justify-start'
+           }`}>
+             <h3 className="text-2xl font-bold text-gradient">
+               {selectedElement.name} Atom
+             </h3>
+             
+                               <div className="relative w-80 h-80">
+                    {/* Nucleus */}
+                    <div
+                      className={`absolute w-12 h-12 rounded-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
+                        isAnimating ? 'animate-pulse-glow' : ''
+                      }`}
+                 style={{ 
+                   backgroundColor: selectedElement.color,
+                   boxShadow: isAnimating 
+                     ? `0 0 20px ${selectedElement.color}, 0 0 40px ${selectedElement.color}` 
+                     : `0 0 10px ${selectedElement.color}`
+                 }}
+               />
+               
+               {/* Electron Shells */}
+               {renderElectronShells()}
+             </div>
 
-          <div className="grid grid-cols-2 gap-6 text-sm">
-            <div className="text-center">
-              <div className="text-muted-foreground">Atomic Number</div>
-              <div className="text-lg font-semibold text-primary">{selectedElement.atomicNumber}</div>
-            </div>
-            <div className="text-center">
-              <div className="text-muted-foreground">Electrons</div>
-              <div className="text-lg font-semibold text-accent">
-                {selectedElement.electrons.reduce((a, b) => a + b, 0)}
+             <div className="grid grid-cols-2 gap-8 text-sm">
+               <div className="text-center">
+                 <div className="text-muted-foreground">Atomic Number</div>
+                 <div className="text-xl font-semibold text-primary">{selectedElement.atomicNumber}</div>
+               </div>
+               <div className="text-center">
+                 <div className="text-muted-foreground">Electrons</div>
+                 <div className="text-xl font-semibold text-accent">
+                   {selectedElement.electrons.reduce((a, b) => a + b, 0)}
+                 </div>
+               </div>
+             </div>
+
+             <Button
+               onClick={() => setIsAnimating(!isAnimating)}
+               variant="outline"
+               className="transition-smooth hover:glow-effect"
+             >
+               {isAnimating ? 'Pause Animation' : 'Start Animation'}
+             </Button>
+           </div>
+
+           {/* Explanations - Dynamic Visibility */}
+           <div className={`absolute right-0 top-0 w-1/2 space-y-6 transition-all duration-700 ${
+             isAnimating 
+               ? 'opacity-0 pointer-events-none translate-x-8 scale-95' 
+               : 'opacity-100 translate-x-0 scale-100'
+           }`}>
+             <h4 className="text-xl font-semibold text-accent text-center lg:text-left">
+               Atomic Structure Details
+             </h4>
+             
+                           {/* Nucleus Explanation */}
+              <div className="bg-card/90 backdrop-blur-sm border border-primary/20 rounded-xl p-4 shadow-xl shadow-primary/10">
+                <div className="flex items-center space-x-3 mb-3">
+                  <div 
+                    className="w-4 h-4 rounded-full shadow-lg shadow-primary/30"
+                    style={{ backgroundColor: selectedElement.color }}
+                  ></div>
+                  <h5 className="font-bold text-primary text-lg">Nucleus</h5>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-2">
+                  Contains protons and neutrons. The center of the atom with positive charge.
+                </p>
+                <div className="text-xs text-primary/70">
+                  <strong>Fun fact:</strong> 99.9% of an atom's mass is in the nucleus!
+                </div>
               </div>
-            </div>
-          </div>
-
-          <Button
-            onClick={() => setIsAnimating(!isAnimating)}
-            variant="outline"
-            className="transition-smooth hover:glow-effect"
-          >
-            {isAnimating ? 'Pause Animation' : 'Start Animation'}
-          </Button>
-        </div>
-      </Card>
+              
+              {/* Shell Explanations */}
+              {selectedElement.electrons.map((electronsInShell, shellIndex) => {
+                return (
+                  <div
+                    key={`explanation-${shellIndex}`}
+                    className="bg-card/90 backdrop-blur-sm border border-accent/20 rounded-xl p-4 shadow-xl shadow-accent/10"
+                  >
+                    <div className="flex items-center space-x-3 mb-3">
+                      <div className="w-4 h-4 rounded-full bg-accent shadow-lg shadow-accent/30"></div>
+                      <h5 className="font-bold text-accent text-lg">
+                        Shell {shellIndex + 1} ({electronsInShell} e⁻)
+                      </h5>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-2">
+                      Energy level {shellIndex + 1}. Can hold maximum {shellIndex === 0 ? 2 : shellIndex === 1 ? 8 : 18} electrons.
+                    </p>
+                    <div className="text-xs text-accent/70">
+                      <strong>Current:</strong> {electronsInShell} electron{electronsInShell !== 1 ? 's' : ''} present
+                    </div>
+                  </div>
+                );
+              })}
+             
+             
+           </div>
+         </div>
+       </Card>
     </div>
   );
 };
