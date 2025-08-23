@@ -42,6 +42,56 @@ const quizQuestions: Question[] = [
     ],
     correctAnswer: 2,
     explanation: "Isotopes have the same number of protons but different numbers of neutrons."
+  },
+  {
+    id: 4,
+    question: "According to the law of conservation of mass:",
+    options: [
+      "Mass can be created in reactions",
+      "Mass of reactants equals mass of products",
+      "Mass can be destroyed in reactions",
+      "Mass changes during chemical reactions"
+    ],
+    correctAnswer: 1,
+    explanation: "The law states that matter cannot be created or destroyed in chemical reactions, so the total mass remains constant."
+  },
+  {
+    id: 5,
+    question: "What is Avogadro's number?",
+    options: [
+      "6.022 × 10²²",
+      "6.022 × 10²³", 
+      "6.022 × 10²⁴",
+      "6.022 × 10²¹"
+    ],
+    correctAnswer: 1,
+    explanation: "Avogadro's number is 6.022 × 10²³, representing the number of particles in one mole of any substance."
+  },
+  {
+    id: 6,
+    question: "In water (H₂O), the ratio of hydrogen to oxygen by mass is:",
+    options: ["1:8", "2:1", "1:16", "8:1"],
+    correctAnswer: 0,
+    explanation: "According to the law of constant proportions, water always contains hydrogen and oxygen in a 1:8 mass ratio."
+  },
+  {
+    id: 7,
+    question: "An ion with a positive charge is called:",
+    options: ["Anion", "Cation", "Neutron", "Electron"],
+    correctAnswer: 1,
+    explanation: "A cation is an ion that has lost electrons and therefore has a positive charge."
+  },
+  {
+    id: 8,
+    question: "Which principle is NOT part of Dalton's atomic theory?",
+    options: [
+      "Atoms are indivisible",
+      "Atoms can be split into smaller particles",
+      "Elements have atoms of identical mass",
+      "Atoms combine in fixed ratios"
+    ],
+    correctAnswer: 1,
+    explanation: "Dalton proposed that atoms are indivisible, though we now know atoms can be split into subatomic particles."
   }
 ];
 

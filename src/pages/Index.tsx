@@ -5,16 +5,22 @@ import { Badge } from '@/components/ui/badge';
 import { AtomVisualization } from '@/components/AtomVisualization';
 import { ConceptExplorer } from '@/components/ConceptExplorer';
 import { InteractiveQuiz } from '@/components/InteractiveQuiz';
+import { ChemicalLaws } from '@/components/ChemicalLaws';
+import { MoleConcept } from '@/components/MoleConcept';
+import { ChemicalFormulae } from '@/components/ChemicalFormulae';
 import heroImage from '@/assets/atomic-hero.jpg';
 
-type ActiveSection = 'visualization' | 'concepts' | 'quiz';
+type ActiveSection = 'visualization' | 'concepts' | 'laws' | 'moles' | 'formulae' | 'quiz';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState<ActiveSection>('visualization');
 
   const sectionTitles = {
     visualization: 'Interactive Atom Models',
-    concepts: 'Learn Key Concepts', 
+    concepts: 'Learn Key Concepts',
+    laws: 'Chemical Laws & Theories',
+    moles: 'Mole Concept & Calculations', 
+    formulae: 'Chemical Formulae',
     quiz: 'Test Your Knowledge'
   };
 
@@ -35,10 +41,10 @@ const Index = () => {
             Class 10 Physics
           </Badge>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 text-gradient animate-fade-in">
-            Atomic Structure
+            Atomic Structure & Chemistry
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 animate-fade-in">
-            Explore the fascinating world of atoms through interactive visualizations and engaging activities
+            Master atomic structure, chemical laws, and molecular concepts through interactive learning
           </p>
           <div className="flex flex-wrap justify-center gap-4 animate-fade-in">
             <Button 
@@ -46,15 +52,15 @@ const Index = () => {
               className="transition-smooth hover:glow-effect"
               onClick={() => setActiveSection('visualization')}
             >
-              Start Exploring
+              Explore Atoms
             </Button>
             <Button 
               variant="outline" 
               size="lg"
               className="transition-smooth hover:glow-effect"
-              onClick={() => setActiveSection('concepts')}
+              onClick={() => setActiveSection('laws')}
             >
-              Learn Concepts
+              Learn Laws
             </Button>
           </div>
         </div>
@@ -90,6 +96,9 @@ const Index = () => {
           <div className="animate-fade-in">
             {activeSection === 'visualization' && <AtomVisualization />}
             {activeSection === 'concepts' && <ConceptExplorer />}
+            {activeSection === 'laws' && <ChemicalLaws />}
+            {activeSection === 'moles' && <MoleConcept />}
+            {activeSection === 'formulae' && <ChemicalFormulae />}
             {activeSection === 'quiz' && <InteractiveQuiz />}
           </div>
         </div>
@@ -99,8 +108,8 @@ const Index = () => {
       <footer className="py-8 px-6 border-t border-border/50 text-center">
         <div className="max-w-4xl mx-auto">
           <p className="text-muted-foreground">
-            Interactive learning module for Class 10 Atomic Structure • 
-            Built with modern web technologies
+            Comprehensive Chemistry Learning Module for Class 10 • 
+            Atomic Structure, Chemical Laws, Mole Concept & More
           </p>
         </div>
       </footer>
